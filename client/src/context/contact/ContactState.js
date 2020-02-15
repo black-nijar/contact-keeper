@@ -15,13 +15,13 @@ import {
 const ContactState = props => {
   const initialState = {
     contacts: [
-      {id: 1, name: 'Nijar', email: 'nijar@gmail.com', phone: '1314343243', type: 'personal'},
-      {id: 2, name: 'Mini', email: 'mini@gmail.com', phone: '23424', type: 'professional'},
-      {id: 3, name: 'Mac', email: 'mac@gmail.com', phone: '4353534', type: 'personal'},
-      {id: 4, name: 'Apple', email: 'apple@gmail.com', phone: '4432-34-324', type: 'professional'},
+      { id: 1, name: 'Nijar', email: 'nijar@gmail.com', phone: '1314343243', type: 'personal' },
+      { id: 2, name: 'Mini', email: 'mini@gmail.com', phone: '23424', type: 'professional' },
+      { id: 3, name: 'Mac', email: 'mac@gmail.com', phone: '4353534', type: 'personal' },
+      { id: 4, name: 'Apple', email: 'apple@gmail.com', phone: '4432-34-324', type: 'professional' },
     ]
   };
-  const [state, dispatch] = useReducer(contactReducer, initialState );
+  const [state, dispatch] = useReducer(contactReducer, initialState);
 
   //Add contact
   const addContact = contact => {
@@ -30,14 +30,23 @@ const ContactState = props => {
       payload: contact
     })
   }
-  return(
+
+  //Delete contact 
+  const deleteContact = id => {
+    dispatch({
+      type: DELETE_CONTACT,
+      payload: id
+    })
+  }
+  return (
     <ContactContext.Provider
-      value= {{
+      value={{
         contacts: state.contacts,
-        addContact
+        addContact,
+        deleteContact
       }}
     >
-      { props.children }
+      {props.children}
     </ContactContext.Provider>
   )
 }

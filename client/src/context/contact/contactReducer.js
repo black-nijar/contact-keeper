@@ -9,12 +9,17 @@ export const SET_ALERT = 'SET_ALERT';
 export const REMOVE_ALERT = 'REMOVE_ALERT';
 
 export default (state, action) => {
-  switch(action.type) {
+  switch (action.type) {
     case ADD_CONTACT:
       return {
         ...state,
         contacts: [...state.contacts, action.payload]
       };
+    case DELETE_CONTACT:
+      return {
+        ...state,
+        contacts: state.contacts.filter(contact => contact.id !== action.payload)
+      }
     default:
       return state;
   }
