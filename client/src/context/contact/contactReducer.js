@@ -1,3 +1,5 @@
+import contactContext from "./contactContext";
+
 export const ADD_CONTACT = 'ADD_CONTACT';
 export const DELETE_CONTACT = 'DELETE_CONTACT';
 export const SET_CURRENT = 'SET_CURRENT';
@@ -34,6 +36,19 @@ export default (state, action) => {
       return {
         ...state,
         current: null
+      };
+    case FILTER_CONTACTS:
+      return {
+        ...state,
+        filtered: state.contacts.filter(contact => {
+          const regex = new RegExp(`${action.payload}`, 'gi');
+          return contact.name.match(regex) || contact.email.match(regex);
+        })
+      };
+    case CLEAR_FILTER:
+      return {
+        ...state,
+        filtered: null
       };
     default:
       return state;
