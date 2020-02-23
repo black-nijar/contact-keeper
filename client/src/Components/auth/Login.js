@@ -1,6 +1,23 @@
-import React, { useState } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 
-const Login = () => {
+import AuthContext from '../../context/auth/AuthContext';
+import AlertContext from '../../context/alert/AlertContext';
+
+const Login = (props) => {
+  const authContext = useContext(AuthContext);
+  const alertContext = useContext(AlertContext);
+  const { setAlert } = alertContext;
+  const { login, error, clearErrors, isAuthenticated } = authContext;
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      props.history.push('/');
+    }
+    if (error) {
+      setAlert(error, 'danger');
+      clearErrors();
+    }
+  }, [error, isAuthenticated]);
   const [user, setUser] = useState({
     email: '',
     password: '',
@@ -8,11 +25,19 @@ const Login = () => {
   });
   const { email, password } = user;
 
-  const onChange = e => setUser({...user, [e.target.name]: e.target.value});
+  const onChange = e => setUser({ ...user, [e.target.name]: e.target.value });
+
 
   const onSubmit = e => {
     e.preventDefault();
-    console.log('Login Submit')
+    if(email === '' || password === '') {
+      setAlert('Please fill in all fields', 'danger')
+    } else {
+      login({
+        email,
+        password
+      })
+    }
   }
   return (
     <div className='form-container'>
@@ -22,28 +47,28 @@ const Login = () => {
       <form onSubmit={onSubmit}>
         <div className='form-group'>
           <label htmlFor='email'>Email Id</label>
-          <input 
-            type='email' 
-            name='email' 
+          <input
+            type='email'
+            name='email'
             placeholder='Email Id'
-            value={email} 
+            value={email}
             onChange={onChange}
           />
         </div>
         <div className='form-group'>
           <label htmlFor='password'>Password</label>
-          <input 
-            type='text' 
-            name='password' 
+          <input
+            type='password'
+            name='password'
             placeholder='Password'
-            value={password} 
+            value={password}
             onChange={onChange}
           />
         </div>
-        <input 
-          type='submit' 
+        <input
+          type='submit'
           value='Login'
-          className='btn btn-primary btn-block'/>
+          className='btn btn-primary btn-block' />
       </form>
     </div>
   )
