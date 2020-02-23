@@ -24,9 +24,14 @@ export default (state, action) => {
       return {
         ...state,
         token: null,
-        isAuthenticated: null,
-        loading: null,
+        isAuthenticated: false,
+        loading: false,
         error: action.payload 
       };
+    case CLEAR_ERRORS:
+      return {
+        ...state,
+        error: null
+      }
   }
 }

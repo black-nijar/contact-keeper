@@ -35,13 +35,13 @@ const AuthState = props => {
       }
     }
     try {
-      let res = await axios.post('/api/users', formData, config);
+      let res = await axios.post('/api/users', JSON.stringify(formData), config);
       dispatch({
         type: REGISTER_SUCCESS,
         payload: res.data
       })
     } catch (err) {
-      console.log(err);
+      console.log('ERROR_RESPONSE', err.response)
       dispatch({
         type: REGISTER_FAIL,
         payload: err.response.data.msg
@@ -61,7 +61,9 @@ const AuthState = props => {
 
   //Clear Error
   const clearErrors = () => {
-    console.log('clear error')
+   dispatch({
+     type: CLEAR_ERRORS
+   });
   };
   
   return (
