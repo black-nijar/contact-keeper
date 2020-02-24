@@ -1,7 +1,7 @@
 import React, { useReducer } from 'react';
-import uuid from 'uuid';
 import ContactContext from './contactContext';
 import contactReducer from './contactReducer';
+import axios from 'axios';
 import {
   ADD_CONTACT,
   UPDATE_CONTACT,
@@ -9,28 +9,48 @@ import {
   CLEAR_FILTER,
   DELETE_CONTACT,
   FILTER_CONTACTS,
-  SET_CURRENT
+  SET_CURRENT,
+  CONTACT_ERROR,
+  GET_CONTACTS
 } from '../types'
 
 const ContactState = props => {
   const initialState = {
-    contacts: [
-      { id: 1, name: 'Nijar', email: 'nijar@gmail.com', phone: '1314343243', type: 'personal' },
-      { id: 2, name: 'Mini', email: 'mini@gmail.com', phone: '23424', type: 'professional' },
-      { id: 3, name: 'Mac', email: 'mac@gmail.com', phone: '4353534', type: 'personal' },
-      { id: 4, name: 'Apple', email: 'apple@gmail.com', phone: '4432-34-324', type: 'professional' },
-    ],
+    contacts: null,
     current: null,
-    filtered: null
+    filtered: null,
+    error: null
   };
   const [state, dispatch] = useReducer(contactReducer, initialState);
+  //Get contact
+  const getContacts = async () => {
+    try {
+      const res = await axios.get('/api/contacts');
+      dispatch({
+        type: GET_CONTACTS,
+        payload: res.data
+      })
+    } catch (err) {
+      dispatch({ type: CONTACT_ERROR, payload: err.response.msg })
+    }
+  }
 
   //Add contact
-  const addContact = contact => {
-    dispatch({
-      type: ADD_CONTACT,
-      payload: contact
-    })
+  const addContact = async contact => {
+    const config = {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }
+    try {
+      const res = await axios.post('/api/contacts', contact, config);
+      dispatch({
+        type: ADD_CONTACT,
+        payload: res.data
+      })
+    } catch (err) {
+      dispatch({ type: CONTACT_ERROR, payload: err.response.msg })
+    }
   };
 
   //Delete contact 
@@ -82,13 +102,15 @@ const ContactState = props => {
         contacts: state.contacts,
         current: state.current,
         filtered: state.filtered,
+        error: state.error,
         addContact,
         deleteContact,
         setCurrent,
         clearCurrent,
         updateContact,
         filterContacts,
-        clearFilter
+        clearFilter,
+        getContacts,
       }}
     >
       {props.children}
