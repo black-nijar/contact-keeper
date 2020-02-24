@@ -33,8 +33,9 @@ const Contact = () => {
               ))
           }
         </TransitionGroup>
-      ) : <Spinner />}
-
+      ) :
+        <Spinner />
+      }
     </Fragment>
   )
 }
