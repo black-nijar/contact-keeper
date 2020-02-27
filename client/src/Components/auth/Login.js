@@ -19,6 +19,7 @@ const Login = (props) => {
     }
     // eslint-disable-next-line
   }, [error, isAuthenticated]);
+  
   const [user, setUser] = useState({
     email: '',
     password: '',
@@ -31,7 +32,7 @@ const Login = (props) => {
 
   const onSubmit = e => {
     e.preventDefault();
-    if(email === '' || password === '') {
+    if (email === '' || password === '') {
       setAlert('Please fill in all fields', 'danger')
     } else {
       login({
@@ -64,6 +65,7 @@ const Login = (props) => {
             placeholder='Password'
             value={password}
             onChange={onChange}
+            autoComplete='off'
           />
         </div>
         <input

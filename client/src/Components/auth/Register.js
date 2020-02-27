@@ -9,7 +9,7 @@ const Register = (props) => {
   const { register, error, clearErrors, isAuthenticated } = authContext;
 
   useEffect(() => {
-    if(isAuthenticated) {
+    if (isAuthenticated) {
       props.history.push('/');
     }
     if (error) {
@@ -17,7 +17,7 @@ const Register = (props) => {
       clearErrors();
     }
     // eslint-disable-next-line
-  }, [error, isAuthenticated, props.history ])
+  }, [error, isAuthenticated, props.history])
 
   const [user, setUser] = useState({
     name: '',
@@ -25,7 +25,8 @@ const Register = (props) => {
     password: '',
     password2: ''
   });
-  const { name, email, password, password2,  } = user;
+  
+  const { name, email, password, password2, } = user;
 
   const onChange = e => setUser({ ...user, [e.target.name]: e.target.value });
 

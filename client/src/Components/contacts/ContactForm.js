@@ -27,6 +27,7 @@ const ContactForm = () => {
   const { name, email, phone, type } = contact;
 
   const onChange = e => setContact({ ...contact, [e.target.name]: e.target.value });
+
   const onSubmit = e => {
     e.preventDefault();
     if (current === null) {
@@ -35,8 +36,10 @@ const ContactForm = () => {
       updateContact(contact);
     }
     clearAll();
-  }
+  };
+
   const clearAll = () => clearCurrent();
+
   return (
     <form onSubmit={onSubmit}>
       <h2 className='text-primary'>{current ? 'Edit Contact' : 'Add Contact'}</h2>

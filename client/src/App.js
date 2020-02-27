@@ -1,4 +1,4 @@
-import React,{ Fragment } from 'react'
+import React, { Fragment } from 'react'
 import './App.css'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import Navbar from './Components/layout/Navbar'
@@ -10,12 +10,12 @@ import Register from './Components/auth/Register'
 import Login from './Components/auth/Login'
 import AlertState from './context/alert/AlertState'
 import Alert from './Components/layout/Alert'
-import setAuhtToken from './utils/setAuthToken'
+import setAuthToken from './utils/setAuthToken'
 import PrivateRoute from './Components/routing/PrivateRoute'
 
 
-if(localStorage.token) {
-  setAuhtToken(localStorage.token);
+if (localStorage.token) {
+  setAuthToken(localStorage.token);
 }
 const App = () => {
   return (
@@ -24,14 +24,14 @@ const App = () => {
         <AlertState>
           <Router>
             <Fragment>
-              <Navbar/>
+              <Navbar />
               <div className='container'>
-                <Alert/>
+                <Alert />
                 <Switch>
-                  <PrivateRoute exact path='/' component={Home}/>
-                  <Route exact path='/about' component={About}/>
-                  <Route exact path='/register' component={Register}/>
-                  <Route exact path='/login' component={Login}/>
+                  <PrivateRoute exact path='/' component={Home} />
+                  <Route exact path='/about' component={About} />
+                  <Route exact path='/register' component={Register} />
+                  <Route exact path='/login' component={Login} />
                 </Switch>
               </div>
             </Fragment>
